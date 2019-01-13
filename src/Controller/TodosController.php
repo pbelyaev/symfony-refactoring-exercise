@@ -18,17 +18,16 @@ class TodosController extends AbstractController
         return $this->render('showTodos.html.twig', ['todos' => $todos]);
     }
 
-    public function completeTodo(Connection $connection)
+    public function completeUncomplete(Connection $connection)
     {
-        $connection->executeQuery('UPDATE todos SET completed = 1 WHERE id = ' . $_GET['id']);
+        $condition = $connection->fetchAll('SELECT t.* FROM todos t WHERE id = ' . $_GET['id']);
 
-        return $this->redirect('/');
-    }
+        if ($condition[0]['completed'] == 1) {
+            $connection->executeQuery('UPDATE todos SET completed = 0 WHERE id = ' . $_GET['id']);
+        } else {
+            $connection->executeQuery('UPDATE todos SET completed = 1 WHERE id = ' . $_GET['id']);
+        }
 
-    public function uncompleteTodo(Connection $connection)
-    {
-        $connection->executeQuery('UPDATE todos SET completed = 0 WHERE id = ' . $_GET['id']);
-
-        return $this->redirect('/');
+        return $this->redirect('/symfony-refactoring-exercise/public/');
     }
 }

@@ -1,11 +1,10 @@
 showTodos:
-  path: /
+  path: /{all}/{id}
   controller: App\Controller\TodosController::showTodos
+  defaults:
+    all: 0
+    id: 0
 
-completeTodo:
-  path: /complete
-  controller: App\Controller\TodosController::completeTodo
-
-uncompleteTodo:
-  path: /uncomplete
-  controller: App\Controller\TodosController::uncompleteTodo
+updateTodo:
+  path: /update/{id}/completed/{completed}
+  controller: App\Controller\TodosController::updateTodo
